@@ -116,7 +116,10 @@ const CloudPricing = ({ valueTargets, valueMinutes }: PropsType) => {
           (!isAvailable && styles.PricingCard__NotAvailable)
         }
       >
-        <Typography variant="h2"><a href="#">Cloud</a></Typography>
+        <Typography variant="h2">
+          {/* eslint-disable-next-line */}
+          <a href="#">Cloud</a>
+        </Typography>
         <p>DevOps automation as-a-service</p>
 
         {RenderPriceBox(isAvailable)}
@@ -142,6 +145,7 @@ const CloudPricing = ({ valueTargets, valueMinutes }: PropsType) => {
         </ul>
 
         <Box className={styles.PricingCard__Learn}>
+          {/* eslint-disable-next-line */}
           <a href="#">
             Learn more<ChevronRight />
           </a>
