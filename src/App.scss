@@ -12,6 +12,8 @@ body {
   font-size: 16px;
   line-height: 1.4;
   color: $grey-dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 *, *::before, *::after {

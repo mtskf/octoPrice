@@ -5,8 +5,6 @@ import { Container, Box } from "@material-ui/core";
 import theme from 'lib/theme';
 
 import Pricing from "./pages/pricing/components/Pricing";
-import Cloud from "./pages/pricing/components/CloudPricingOld";
-import Server from "./pages/pricing/components/ServerPricingOld";
 
 function App () {
   return (
@@ -16,8 +14,6 @@ function App () {
           <Typography variant="h1">Pricing Page</Typography>
         </Box>
         <Pricing />
-        <Cloud />
-        <Server />
       </Container>
     </ThemeProvider>
   );
