@@ -42,7 +42,7 @@ const CloudPricing = ({ valueTargets, valueMinutes }: PropsType) => {
   const isAvailable: boolean = targetsPrice !== null && minutesPrice !== null;
   const totalPrice = isAvailable ? targetsPrice! + minutesPrice! : null;
 
-  const PriceBox = (isAvailable: boolean) => isAvailable ? (
+  const RenderPriceBox = (isAvailable: boolean) => isAvailable ? (
     <Box className={styles.PricingCard__Price}>
       <span>
         <sup>$</sup>
@@ -59,7 +59,7 @@ const CloudPricing = ({ valueTargets, valueMinutes }: PropsType) => {
     </Box>
   );
 
-  const PriceDetail = (isAvailable: boolean) => isAvailable ? (
+  const RenderPriceDetail = (isAvailable: boolean) => isAvailable ? (
     <Box className={styles.PricingCard__Detail}>
       <p style={{ maxWidth: "18.5rem" }}>* $10 per target + $0.03 per deployment minutes, includes 10 targets & 100 deployment minutes for free</p>
     </Box>
@@ -103,17 +103,25 @@ const CloudPricing = ({ valueTargets, valueMinutes }: PropsType) => {
     info: 'Maximum size of any single package stored for your deployments.',
   }];
 
-  const isPopular = valueTargets <= SERVER_UNLIMITED_TARGETS;
+  const isPopular = isAvailable && valueTargets <= SERVER_UNLIMITED_TARGETS;
 
   return (
     <>
-      <Box className={styles.PricingCard + ' ' + (isPopular && styles.PricingCard__Popular)}>
+      <Box
+        className={
+          styles.PricingCard
+          + ' ' +
+          (isPopular && styles.PricingCard__Popular)
+          + ' ' +
+          (!isAvailable && styles.PricingCard__NotAvailable)
+        }
+      >
         <Typography variant="h2"><a href="#">Cloud</a></Typography>
         <p>DevOps automation as-a-service</p>
 
-        {PriceBox(isAvailable)}
+        {RenderPriceBox(isAvailable)}
 
-        {PriceDetail(isAvailable)}
+        {RenderPriceDetail(isAvailable)}
 
         <Box>
           <Button variant="contained" color="secondary" size="large">Start 30 days trial</Button>
