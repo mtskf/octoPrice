@@ -214,8 +214,8 @@
     align-items: center;
     height: $chipHeight;
     width: $chipWidth;
-    margin: $chipHeight/-2 $chipWidth/-2;
-    border-radius: $chipHeight / 2;
+    margin: calc($chipHeight / -2) calc($chipWidth / -2);
+    border-radius: calc($chipHeight / -2);
     background-color: $octoblue;
     color: #fff;
     font-size: 0.875rem;
@@ -244,7 +244,7 @@
     &:before {
       content: "Unlimited targets";
       width: $chipWidth;
-      margin: $chipHeight/-2 $chipWidth/-2;
+      margin: calc($chipHeight / -2) calc($chipWidth / -2);
       opacity: 1;
       visibility: visible;
     }
