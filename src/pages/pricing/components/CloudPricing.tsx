@@ -1,228 +1,143 @@
-import * as React from "react";
-import { useState } from "react";
-import { Box, Grid, Input, Slider, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { formatCcy, handleInvalidValue } from "../../../utils";
+import { useMemo } from "react";
+import { Box, Typography, Button, Tooltip } from "@material-ui/core";
+import { Check, Close, Help, ChevronRight } from '@material-ui/icons';
+import styles from "./styles.module.scss";
+import { toLocaleStr } from "lib/utils";
 
-const useStyles = makeStyles({
-  root: {
-    width: 250,
-  },
-  input: {
-    width: 42, // 42
-  },
-});
+interface PropsType {
+  valueTargets: number;
+  valueMinutes: number;
+}
 
 const FREE_TARGETS = 10;
 const FREE_MINUTES = 100;
+const MAX_TARGETS = 5000;
+const MAX_MINUTES = 10000;
 const COST_PER_TARGET = 10;
 const COST_PER_MINUTE = 0.03;
 const HIGH_AVAILABILITY_TARGETS = 100;
+const SERVER_UNLIMITED_TARGETS = 2000;
 
-const isChargedTargets = (valueTargets: number | string): boolean => {
-  return valueTargets > FREE_TARGETS;
-};
+const CloudPricing = ({ valueTargets, valueMinutes }: PropsType) => {
 
-const isChargedMinutes = (valueMinutes: number | string): boolean => {
-  return valueMinutes > FREE_MINUTES;
-};
+  const isEligibleHA = useMemo(() => valueTargets >= HIGH_AVAILABILITY_TARGETS, [valueTargets]);
 
-const CloudPricing = () => {
-  const classes = useStyles();
+  const targetsPrice = useMemo((): number | null => {
+    if (valueTargets > MAX_TARGETS) return null;
 
-  // Deployment Targets
-  const [valueTargets, setValueTargets] = useState(FREE_TARGETS);
+    const chargedTargets = valueTargets > FREE_TARGETS ? valueTargets - FREE_TARGETS : 0;
 
-  const handleSliderChange = (event: any, newValue: any) => {
-    setValueTargets(newValue);
-    setLastTargetsSliderVal(valueTargets);
-  };
+    return chargedTargets * COST_PER_TARGET;
+  }, [valueTargets]);
 
-  const handleBlur = () => {
-    if (valueTargets < 0) {
-      setValueTargets(0);
-    } else if (valueTargets > 10000) {
-      setValueTargets(10000);
-    }
-  };
 
-  // Single spot where targets slider value to be set by the user
-  const updateUserTargets = (valueTargets: number) => {
-    setValidTargets(valueTargets); // update display value
-    setLastTargetsSliderVal(valueTargets); // remember user's last value
+  const minutesPrice = useMemo((): number | null => {
+    if (valueMinutes > MAX_MINUTES) return null;
 
-    // reset checkbox if targets slider value is not eligible to HA
-    if (valueTargets < HIGH_AVAILABILITY_TARGETS) {
-      setHaCheckboxVal(false);
-    }
-  };
-  const setValidTargets = (num: number) => {
-    let vaildVal = handleInvalidValue(num);
-    setValueTargets(vaildVal);
-  };
+    const chargedMinutes = valueMinutes > FREE_MINUTES ? valueMinutes - FREE_MINUTES : 0;
 
-  // Deployment minutes
-  const [valueMinutes, setValueMinutes] = useState<
-    number | string | Array<number | string>
-  >(FREE_MINUTES);
+    return chargedMinutes * COST_PER_MINUTE;
+  }, [valueMinutes]);
 
-  const handleSliderChangeMinutes = (
-    event: any,
-    newValueMinutes: number | number[]
-  ) => {
-    setValueMinutes(newValueMinutes);
-  };
+  const isAvailable: boolean = targetsPrice !== null && minutesPrice !== null;
+  const totalPrice = isAvailable ? targetsPrice! + minutesPrice! : null;
 
-  const handleBlurMinutes = () => {
-    if (valueMinutes < 0) {
-      setValueMinutes(0);
-    } else if (valueMinutes > 10000) {
-      setValueMinutes(10000);
-    }
-  };
-  const setValidMinutes = (num: number) => {
-    let vaildVal = handleInvalidValue(num);
-    setValueMinutes(vaildVal);
-  };
-
-  // High Availablity
-  const [LastTargetsSliderVal, setLastTargetsSliderVal] = useState(
-    FREE_TARGETS
+  const PriceBox = (isAvailable: boolean) => isAvailable ? (
+    <Box className={styles.PricingCard__Price}>
+      <span>
+        <sup>$</sup>
+        {toLocaleStr(totalPrice || 0)}
+        <sup>*</sup>
+        <small>/ month</small>
+      </span>
+    </Box>
+  ) : (
+    <Box className={styles.PricingCard__Price}>
+      <span className="notAvailable">
+        Not available<sup>*</sup>
+      </span>
+    </Box>
   );
-  const [haCheckboxVal, setHaCheckboxVal] = useState(false);
-  const isEligibleHA = valueTargets >= HIGH_AVAILABILITY_TARGETS;
-  const renderHaChecked = haCheckboxVal || isEligibleHA;
-  const highAvailabilityCheck = (e: { target: { checked: any } }) => {
-    // Updating checkbox state
-    const newHaCheckboxVal = e.target.checked;
-    setHaCheckboxVal(newHaCheckboxVal);
-    // [ ] => [x]
-    if (newHaCheckboxVal) {
-      // Set high availablility value
-      if (valueTargets < HIGH_AVAILABILITY_TARGETS) {
-        setValueTargets(HIGH_AVAILABILITY_TARGETS);
-      }
-    } else {
-      // [x] => [ ]
-      // Reset to user's last input value
-      setValueTargets(LastTargetsSliderVal);
-    }
-  };
 
-  // Calculations
-  const calcChargedTargets = (valueTargets: any) => {
-    if (isChargedTargets(valueTargets)) {
-      return valueTargets - FREE_TARGETS;
-    } else {
-      return 0;
-    }
-  };
+  const PriceDetail = (isAvailable: boolean) => isAvailable ? (
+    <Box className={styles.PricingCard__Detail}>
+      <p style={{ maxWidth: "18.5rem" }}>* $10 per target + $0.03 per deployment minutes, includes 10 targets & 100 deployment minutes for free</p>
+    </Box>
+  ) : (
+    <Box className={styles.PricingCard__Detail}>
+      <p style={{ maxWidth: "15rem" }}>* Deployment targets are up to {MAX_TARGETS}, and deployment minutes are up to {MAX_MINUTES}.</p>
+    </Box>
+  );
 
-  const calcChargedMinutes = (valueMinutes: any) => {
-    if (isChargedMinutes(valueMinutes)) {
-      return valueMinutes - FREE_MINUTES;
-    } else {
-      return 0;
-    }
-  };
+  const featureList = [{
+    title: 'World-class support team',
+    available: true,
+    info: 'Email-based support from our team in multiple timezones, staffed by engineers who work on the product.'
+  }, {
+    title: 'High availability (for 100 + targets only)',
+    available: isEligibleHA,
+    info: 'Multiple Octopus Server nodes in an active/active, highly available configuration with a load balancer in the front, ensuring you can deploy (or rollback!) 24/7. Only available in plan with more than 100 deployments.'
+  }, {
+    title: 'Unlimited spaces',
+    available: true,
+    info: 'Give each team their own space, with their own projects, environments, tenants, step templates and more.'
+  }, {
+    title: 'Concurrent Octopus Server instances: 1',
+    available: true,
+    info: 'Run one Octopus Deploy service for production usage by your team, and set up extras for dev/test. Or use two separate Octopus Deploy instances to keep production and pre-production deployments isolated.'
+  }, {
+    title: 'Concurrent deployment tasks: Scalable',
+    available: true,
+    info: 'Maximum number of deployments that can be running at the same time (limited by hardware, of course!).'
+  }, {
+    title: 'File storage: 1TB',
+    available: true,
+    info: 'Maximum amount of packages, artifacts and task logs that can be stored for your deployments.'
+  }, {
+    title: 'Database storage: 1TB',
+    available: true,
+    info: 'Maximum amount of configuration data that can be stored for your deployments.',
+  }, {
+    title: 'Package Size: 5GB',
+    available: true,
+    info: 'Maximum size of any single package stored for your deployments.',
+  }];
 
-  const targetsPrice = calcChargedTargets(valueTargets) * COST_PER_TARGET;
-  const minutesPrice = calcChargedMinutes(valueMinutes) * COST_PER_MINUTE;
-  const totalPrice = targetsPrice + minutesPrice;
+  const isPopular = valueTargets <= SERVER_UNLIMITED_TARGETS;
 
   return (
     <>
-      <Box>
-        <h2>Cloud</h2>
-        <p>
-          <span>
-            {formatCcy(totalPrice)}
-            <sup>*</sup>
-          </span>
-          <span> / Month</span>
-        </p>
-        <p>
-          High availability feature included in plan with more than 100
-          deployment
-        </p>
+      <Box className={styles.PricingCard + ' ' + (isPopular && styles.PricingCard__Popular)}>
+        <Typography variant="h2"><a href="#">Cloud</a></Typography>
+        <p>DevOps automation as-a-service</p>
 
-        <Grid item>
-          <Typography>
-            For{" "}
-            {valueTargets <= FREE_TARGETS
-              ? ` up to 10 deployment targets`
-              : " up to " + valueTargets + " deployment targets "}
-          </Typography>
+        {PriceBox(isAvailable)}
 
-          <div className={classes.root}>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs>
-                <Slider
-                  value={typeof valueTargets === "number" ? valueTargets : 0}
-                  onChange={handleSliderChange}
-                  aria-labelledby="input-slider"
-                  min={10}
-                  max={5000}
-                />
-              </Grid>
-              <Grid item>
-                <Input
-                  className={classes.input}
-                  value={valueTargets}
-                  margin="dense"
-                  onChange={(e) =>
-                    updateUserTargets(parseInt(e.target.value, 10))
-                  }
-                  onBlur={handleBlur}
-                  inputProps={{
-                    step: 10,
-                    min: 10,
-                    max: 5000,
-                    type: "number",
-                    "aria-labelledby": "input-slider",
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </div>
-          <div className={classes.root}>
-            <Typography>
-              For{" "}
-              {valueMinutes <= FREE_TARGETS
-                ? ` free deployment minutes `
-                : " " + valueMinutes + " deployment minutes "}
-            </Typography>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs>
-                <Slider
-                  value={typeof valueMinutes === "number" ? valueMinutes : 0}
-                  onChange={handleSliderChangeMinutes}
-                  aria-labelledby="input-slider-minutes"
-                  min={100}
-                  max={10000}
-                />
-              </Grid>
-              <Grid item>
-                <Input
-                  className={classes.input}
-                  value={valueMinutes}
-                  margin="dense"
-                  onChange={(e) =>
-                    setValidMinutes(parseInt(e.target.value, 10))
-                  }
-                  onBlur={handleBlurMinutes}
-                  inputProps={{
-                    step: 10,
-                    min: 100,
-                    max: 10000,
-                    type: "number",
-                    "aria-labelledby": "input-slider-minutes",
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </div>
-        </Grid>
+        {PriceDetail(isAvailable)}
+
+        <Box>
+          <Button variant="contained" color="secondary" size="large">Start 30 days trial</Button>
+        </Box>
+
+        <ul>
+          {featureList.map((item, index) => (
+            <li key={index} className={item.available ? '' : styles.FeatureNotAvailable}>
+              {item.available ? <Check color="primary" className="icon-check" /> : <Close className="icon-close" />}
+              <Tooltip arrow title={item.info} placement="top-start" className={styles.CustomToolTip}>
+                <span>
+                  <u>{item.title}</u>
+                  <Help className="help" />
+                </span>
+              </Tooltip>
+            </li>
+          ))}
+        </ul>
+
+        <Box className={styles.PricingCard__Learn}>
+          <a href="#">
+            Learn more<ChevronRight />
+          </a>
+        </Box>
       </Box>
     </>
   );

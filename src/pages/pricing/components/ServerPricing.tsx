@@ -1,198 +1,121 @@
-import * as React from "react";
-import { useState } from "react";
-import classNames from "classnames";
-import { Box, Grid, Input, Slider, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { formatCcy, handleInvalidValue } from "../../../utils";
-import { FormControlLabel } from "@material-ui/core";
-import { Checkbox } from "@material-ui/core";
+import { useMemo } from "react";
+import { Box, Typography, Button, Tooltip } from "@material-ui/core";
+import { Check, Close, Help, ChevronRight } from '@material-ui/icons';
+import styles from "./styles.module.scss";
+import { toLocaleStr } from "lib/utils";
 
-const useStyles = makeStyles({
-  root: {
-    width: 250,
-  },
-  input: {
-    width: 42,
-  },
-});
+interface PropsType {
+  valueTargets: number;
+}
 
 const FREE_TARGETS = 10;
 const COST_PER_TARGET = 10;
 const HIGH_AVAILABILITY_TARGETS = 100;
 const UNLIMITED_TARGETS = 2001;
-const UNLIMITED_PRICE = "192,000";
+const UNLIMITED_PRICE = 192000;
 
 const isChargedTargets = (valueTargets: number | string): boolean => {
   return valueTargets > FREE_TARGETS;
 };
 
-const ServerPricing = () => {
-  // Styling
-  const classes = useStyles();
+const ServerPricing = ({ valueTargets }: PropsType) => {
 
-  // Deployment Targets
-  const [valueTargets, setValueTargets] = useState(FREE_TARGETS);
+  const isEligibleHA = useMemo(() => valueTargets >= HIGH_AVAILABILITY_TARGETS, [valueTargets]);
 
-  const handleSliderChange = (event: any, newValue: any) => {
-    setValueTargets(newValue);
-    setLastTargetsSliderVal(valueTargets);
-  };
 
-  const handleBlur = () => {
-    if (valueTargets < 0) {
-      setValueTargets(0);
-    } else if (valueTargets > 10000) {
-      setValueTargets(10000);
-    }
-  };
 
-  // Single spot where targets slider value to be set by the user
-  const updateUserTargets = (valueTargets: number) => {
-    setValidTargets(valueTargets); // update display value
-    setLastTargetsSliderVal(valueTargets); // remember user's last value
-
-    // reset checkbox if targets slider value is not eligible to HA
-    if (valueTargets < HIGH_AVAILABILITY_TARGETS) {
-      setHaCheckboxVal(false);
-    }
-  };
-  const setValidTargets = (num: number) => {
-    let vaildVal = handleInvalidValue(num);
-    setValueTargets(vaildVal);
-  };
-
-  // High Availablity
-  const [LastTargetsSliderVal, setLastTargetsSliderVal] = useState(
-    FREE_TARGETS
-  );
-  const [haCheckboxVal, setHaCheckboxVal] = useState(false);
-  const isEligibleHA = valueTargets >= HIGH_AVAILABILITY_TARGETS;
-  const renderHaChecked = haCheckboxVal || isEligibleHA;
-  const highAvailabilityCheck = (e: { target: { checked: any } }) => {
-    // Updating checkbox state
-    const newHaCheckboxVal = e.target.checked;
-    setHaCheckboxVal(newHaCheckboxVal);
-    // [ ] => [x]
-    if (newHaCheckboxVal) {
-      // Set high availablility value
-      if (valueTargets < HIGH_AVAILABILITY_TARGETS) {
-        setValueTargets(HIGH_AVAILABILITY_TARGETS);
-      }
-    } else {
-      // [x] => [ ]
-      // Reset to user's last input value
-      setValueTargets(LastTargetsSliderVal);
-    }
-  };
-
-  // Unlimited Targets
-  const [
-    unlimitedTargetsCheckboxVal,
-    setUnlimitedTargetsCheckboxVal,
-  ] = useState(false);
   const isEligibleUnlimited = valueTargets >= UNLIMITED_TARGETS;
-  const renderUnlimitedTargetsChecked =
-    unlimitedTargetsCheckboxVal || isEligibleUnlimited;
-  const unlimitedTargetsCheck = (e: { target: { checked: any } }) => {
-    // Updating checkbox state
-    const newUnlimitedTargetsCheckboxVal = e.target.checked;
-    setUnlimitedTargetsCheckboxVal(newUnlimitedTargetsCheckboxVal);
-    // [ ] => [x]
-    if (newUnlimitedTargetsCheckboxVal) {
-      // Set unlimited target value
-      if (valueTargets < UNLIMITED_TARGETS) {
-        setValueTargets(UNLIMITED_TARGETS);
-      }
-    } else {
-      // [x] => [ ]
-      // Reset to user's last input value
-      setValueTargets(LastTargetsSliderVal);
-    }
-  };
+
 
   // Calculations
   const calcChargedTargets = (valueTargets: any) => {
-    if (isChargedTargets(valueTargets)) {
-      return valueTargets - FREE_TARGETS;
-    } else {
-      return 0;
-    }
+    return valueTargets > FREE_TARGETS ? valueTargets - FREE_TARGETS : 0;
   };
 
-  const targetsPrice = calcChargedTargets(valueTargets) * COST_PER_TARGET;
+  const targetsPrice = useMemo((): number => {
+    if (valueTargets >= UNLIMITED_TARGETS) return UNLIMITED_PRICE;
+    else if (valueTargets <= FREE_TARGETS) return 0;
+    else return (valueTargets - FREE_TARGETS) * COST_PER_TARGET;
+  }, [valueTargets]);
+
   const totalPrice = targetsPrice;
+
+  const featureList = [{
+    title: 'World-class support team',
+    available: true,
+    info: 'Email-based support from our team in multiple timezones, staffed by engineers who work on the product.'
+  }, {
+    title: 'High availability (for 100 + targets only)',
+    // available: isAvailable,
+    available: true,
+    info: 'Multiple Octopus Server nodes in an active/active, highly available configuration with a load balancer in the front, ensuring you can deploy (or rollback!) 24/7. Only available in plan with more than 100 deployments.'
+  }, {
+    title: 'Unlimited spaces',
+    available: true,
+    info: 'Give each team their own space, with their own projects, environments, tenants, step templates and more.'
+  }, {
+    title: 'Concurrent Octopus Server instances: 3',
+    available: true,
+    info: 'Run one Octopus Deploy service for production usage by your team, and set up extras for dev/test. Or use two separate Octopus Deploy instances to keep production and pre-production deployments isolated.'
+  }, {
+    title: 'Concurrent deployment tasks: Unlimited',
+    available: true,
+    info: 'Maximum number of deployments that can be running at the same time (limited by hardware, of course!).'
+  }, {
+    title: 'File storage: Unlimited',
+    available: true,
+    info: 'Maximum amount of packages, artifacts and task logs that can be stored for your deployments.'
+  }, {
+    title: 'Database storage: Unlimited',
+    available: true,
+    info: 'Maximum amount of configuration data that can be stored for your deployments.',
+  }, {
+    title: 'Package Size: Unlimited',
+    available: true,
+    info: 'Maximum size of any single package stored for your deployments.',
+  }];
 
   return (
     <>
-      <Box>
-        <h2>Server</h2>
-        <p>
-          <span>
-            {renderUnlimitedTargetsChecked
-              ? UNLIMITED_PRICE
-              : formatCcy(totalPrice)}
-            <sup>*</sup>
-          </span>
-          <span> / Month</span>
-        </p>
-        <p>
-          High availability feature included in plan with more than 100
-          deployment targets.
-        </p>
+      <Box className={styles.PricingCard + ' ' + (isEligibleUnlimited && styles.PricingCard__Unlimited)}>
+        <Typography variant="h2"><a href="#">Server</a></Typography>
+        <p>Octopus on your infrastructure</p>
 
-        <Grid item>
-          <Typography>
-            For{" "}
-            {renderUnlimitedTargetsChecked
-              ? ` unlimited deployment targets`
-              : " up to " + valueTargets + " deployment targets "}
-          </Typography>
+        <Box className={styles.PricingCard__Price}>
+          <sup>$</sup>
+          {toLocaleStr(totalPrice)}
+          <sup>*</sup>
+          <small>/ month</small>
+        </Box>
 
-          <div className={classes.root}>
-            {renderUnlimitedTargetsChecked ? null : (
-              <Grid container spacing={2} alignItems="center">
-                <Grid item xs>
-                  <Slider
-                    value={valueTargets}
-                    onChange={handleSliderChange}
-                    aria-labelledby="input-slider"
-                    min={10}
-                    max={2000}
-                  />
-                </Grid>
+        <Box className={styles.PricingCard__Detail}>
+          <p style={{ maxWidth: "15rem" }}>* $10 per target, includes 10 targets for free & unlimited deployment minutes</p>
+        </Box>
 
-                <Grid item>
-                  <Input
-                    className={classes.input}
-                    value={valueTargets}
-                    margin="dense"
-                    onChange={(e) =>
-                      updateUserTargets(parseInt(e.target.value, 10))
-                    }
-                    onBlur={handleBlur}
-                    inputProps={{
-                      step: 10,
-                      min: 10,
-                      max: 2000,
-                      type: "number",
-                      "aria-labelledby": "input-slider",
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            )}
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={renderUnlimitedTargetsChecked}
-                  onChange={unlimitedTargetsCheck}
-                  name="unlimitedTargets"
-                />
-              }
-              label="Unlimited Targets"
-            />
-          </div>
-        </Grid>
+        <Box>
+          <Button variant="contained" color="secondary" size="large">Start 30 days trial</Button>
+        </Box>
+
+        <ul>
+          {featureList.map((item, index) => (
+            <li key={index} className={item.available ? '' : styles.FeatureNotAvailable}>
+              {item.available ? <Check color="primary" className="icon-check" /> : <Close className="icon-close" />}
+              <Tooltip arrow title={item.info} placement="top-start" className={styles.CustomToolTip}>
+                <span>
+                  <u>{item.title}</u>
+                  <Help className="help" />
+                </span>
+              </Tooltip>
+            </li>
+          ))}
+        </ul>
+
+        <Box className={styles.PricingCard__Learn}>
+          <a href="#">
+            Learn more<ChevronRight />
+          </a>
+        </Box>
+
       </Box>
     </>
   );
