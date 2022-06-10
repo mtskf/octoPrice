@@ -8,7 +8,7 @@ import Community from "./Community";
 const FREE_TARGETS = 10;
 const FREE_MINUTES = 100;
 
-const PricingModule = () => {
+const PricingBody = () => {
   const [valueTargets, setValueTargets] = useState(FREE_TARGETS);
   const [valueMinutes, setValueMinutes] = useState<number>(FREE_MINUTES);
   return (
@@ -38,4 +38,4 @@ const PricingModule = () => {
     </Box >
   );
 };
-export default PricingModule;
+export default PricingBody;
