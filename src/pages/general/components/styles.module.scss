@@ -1,0 +1,92 @@
+@import 'assets/scss/_variables';
+
+.Container {
+    max-width: 75rem;
+    padding: 0 4rem;
+  margin: 0 auto;
+
+  @media screen and (max-width: $screen-lg) {
+    max-width: 65rem;
+    padding: 0 1.5rem;
+  }
+  @media screen and (max-width: $screen-md) {
+    max-width: 55rem;
+    padding: 0 1.5rem;
+  }
+  @media screen and (max-width: $screen-xs) {
+    padding: 0 1rem;
+
+  }
+}
+
+.OctoNavBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  transition: all 0.4s ease;
+  &[data-scrolled="true"] {
+    background-color: #fff;
+    box-shadow: 0 0.5rem 1rem rgba($grey-dark, 0.08);
+  }
+  & > nav {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 4.125rem;
+  }
+  ul {
+    display: flex;
+    width: 100%;
+    gap: 1.5rem;
+     @media screen and (max-width: 66rem) {
+    gap: 1.3rem;
+
+     }
+    align-items: center;
+    justify-content: space-around;
+    }
+  li {
+
+  }
+  :global li.NavSpacer {
+    margin-right: auto;
+  }
+  :global li.hideMobile {
+    @media screen and (max-width: $screen-md) {
+      display: none;
+    }
+  }
+  :global li.showMobile {
+    display: none;
+    @media screen and (max-width: $screen-md) {
+      display: block;
+    }
+  }
+  :global svg.logo {
+    display: block;
+    width: 10rem;
+    height: 4rem;
+    margin: -0.4rem;
+  }
+}
+
+.OctoFooter {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10rem;
+  background-color: $grey-subtle;
+  text-align: center;
+  svg {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    margin: 0 auto 0.25rem;
+  }
+  color: lighten($grey, 10%);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}

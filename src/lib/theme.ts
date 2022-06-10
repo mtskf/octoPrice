@@ -1,11 +1,10 @@
-import { red } from '@material-ui/core/colors';
 import { createTheme } from '@material-ui/core/styles';
 import { Shadows } from "@material-ui/core/styles/shadows"
 
 const theme = createTheme({
   typography: {
     h1: {
-      fontSize: '2.5rem',
+      fontSize: '2.25rem',
       fontWeight: 'bold',
     },
     h2: {
@@ -31,7 +30,7 @@ const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 10,
+    borderRadius: 6,
   },
   shadows: Array(25).fill("none") as Shadows,
 });

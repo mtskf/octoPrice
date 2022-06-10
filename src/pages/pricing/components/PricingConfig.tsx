@@ -1,20 +1,15 @@
 import { useState, SetStateAction, Dispatch } from "react";
-import { Box, Grid, Tooltip } from "@material-ui/core";
+import { Box, Grid } from "@material-ui/core";
 import { Help } from '@material-ui/icons';
 import { toLocaleStr } from "lib/utils";
 import styles from "./styles.module.scss";
 import CustomSlider from "./CustomSlider";
+import CustomTooltip from "./CustomTooltip";
 
 const FREE_TARGETS = 10;
 const FREE_MINUTES = 100;
 const FREE_TARGETS_SLIDER_POS = FREE_TARGETS / 1;
 const FREE_MINUTES_SLIDER_POS = FREE_MINUTES / 10;
-
-const longText = `
-Aliquam eget finibus ante, non facilisis lectus. Sed vitae dignissim est, vel aliquam tellus.
-Praesent non nunc mollis, fermentum neque at, semper arcu.
-Nullam eget est sed sem iaculis gravida eget vitae justo.
-`;
 
 interface PropsType {
   valueTargets: number;
@@ -23,7 +18,7 @@ interface PropsType {
   setValueMinutes: Dispatch<SetStateAction<number>>;
 }
 
-const UserInput = ({
+const UserConfig = ({
   valueTargets,
   setValueTargets,
   valueMinutes,
@@ -61,14 +56,32 @@ const UserInput = ({
     setValueMinutes(valueMinutesScale(newValue));
   };
 
+  const targetTooltipContent = (
+    <>
+      <h4>What are deployment targets?</h4>
+      <p>
+        Deployment targets are the servers and cloud PaaS resources (typically the number of virtual machines) that you deploy to. <a href='/pricing/faq#cloud-pricing'>Learn more</a>.
+      </p>
+    </>
+  );
+
+  const minuteTooltipContent = (
+    <>
+      <h4>What are deployment minutes?</h4>
+      <p>
+        Deployment minutes is the total duration of all deployments during the month.With Cloud option, each deployment minute is charged at $0.03 per minute. <a href='/pricing/faq#cloud-pricing'>Learn more</a>.</p><p>You will only be charged for the targets you use in your cloud instance.
+      </p>
+    </>
+  );
+
 
   return (
-    <>
+    <Box className={styles.PricingConfig}>
       <Box mb={3}>
         <Grid container alignItems="center">
           <Grid item xs={12} sm="auto" className={styles.SliderTitle}>
-            <Tooltip
-              title={longText}
+            <CustomTooltip
+              title={targetTooltipContent}
               arrow
               placement="top-start"
               className={styles.CustomToolTip}
@@ -77,7 +90,7 @@ const UserInput = ({
                 <span>Deployment targets</span>
                 <Help />
               </h3>
-            </Tooltip>
+            </CustomTooltip>
           </Grid>
           <Grid item xs>
             <CustomSlider
@@ -103,12 +116,12 @@ const UserInput = ({
       <Box mb={10}>
         <Grid container alignItems="center">
           <Grid item xs={12} sm="auto" className={styles.SliderTitle}>
-            <Tooltip title={longText} arrow placement="top-start">
+            <CustomTooltip title={minuteTooltipContent} arrow placement="top-start">
               <h3>
                 <span>Deployment minutes</span>
                 <Help />
               </h3>
-            </Tooltip>
+            </CustomTooltip>
           </Grid>
           <Grid item xs>
             <CustomSlider
@@ -129,7 +142,7 @@ const UserInput = ({
           </Grid>
         </Grid>
       </Box>
-    </>
+    </Box >
   );
 };
-export default UserInput;
+export default UserConfig;

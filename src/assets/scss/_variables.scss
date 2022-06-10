@@ -3,6 +3,13 @@ $octogreen: #36B065 !default;
 $grey-dark: #212529 !default;
 $grey: #858E95 !default;
 $grey-light: #E4E7EA !default;
+$grey-subtle: lighten($grey-light, 7%);
 
 $primary: $octoblue !default;
 $secondary: $octogreen !default;
+
+$screen-xl: 100rem;
+$screen-lg: 75rem;
+$screen-md: 62rem;
+$screen-sm: 45rem;
+$screen-xs: 37.5rem;

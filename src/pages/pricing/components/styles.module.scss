@@ -1,5 +1,15 @@
 @import 'assets/scss/_variables';
 
+.PricingConfig {
+  margin: 0 auto;
+  @media screen and (max-width: $screen-md) {
+    margin-bottom: -2rem;
+  }
+  @media screen and (max-width: $screen-xs) {
+    max-width: 25rem;
+  }
+}
+
 .CustomSlider {
   padding: 0 1rem;
 
@@ -168,14 +178,25 @@
 }
 
 :global .MuiTooltip-tooltip {
-  max-width: 15rem !important;
-  padding: 0.75rem 1rem !important;
+  width: 20rem;
+  max-width: 88vw !important;
+  padding: 1rem 1.25rem !important;
   background-color: $grey-dark !important;
   font-size: 0.875rem !important;
+  pointer-events: all !important;
   & > .MuiTooltip-arrow {
     color: $grey-dark;
     bottom: 1px !important;
     font-size: 12px;
+    border: none !important;
+  }
+  h4 {
+    margin-bottom: 0.5rem;;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  p:not(:last-child) {
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -186,8 +207,15 @@
   box-shadow: 0 0.2rem 2rem rgba($grey-dark, 0.08);
   border-radius: 1rem;
   border: 1px solid $grey-light;
+  background-color: #fff;
   text-align: center;
   transition: all 0.4s ease;
+  @media screen and (max-width: $screen-xs) {
+    max-width: 25rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   &:hover {
     z-index: 2;
     box-shadow: 0 0.5rem 3rem rgba($grey-dark, 0.16);
@@ -214,8 +242,8 @@
     align-items: center;
     height: $chipHeight;
     width: $chipWidth;
-    margin: $chipHeight/-2 $chipWidth/-2;
-    border-radius: $chipHeight / 2;
+    margin: calc($chipHeight / -2) calc($chipWidth / -2);
+    border-radius: 0.9rem;
     background-color: $octoblue;
     color: #fff;
     font-size: 0.875rem;
@@ -223,6 +251,9 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s ease;
+  }
+  &__NotAvailable {
+    opacity: 0.6;
   }
 
   &__Popular {
@@ -241,7 +272,7 @@
     &:before {
       content: "Unlimited targets";
       width: $chipWidth;
-      margin: $chipHeight/-2 $chipWidth/-2;
+      margin: calc($chipHeight / -2) calc($chipWidth / -2);
       opacity: 1;
       visibility: visible;
     }
@@ -277,10 +308,22 @@
     }
   }
 
+  &__BuyQuote {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2rem;
+    font-size: 0.875rem;
+    & > a {
+      font-weight: bold;
+    }
+  }
+
   & > ul {
     display: block;
     max-width: 21rem;
-    margin: 2.5rem auto 0;
+    margin: 1rem auto 0;
     text-align: left;
     @media screen and (max-width: 820px) {
       font-size: 0.875rem;
@@ -327,5 +370,116 @@
       display: flex;
       font-weight: bold;
     }
+  }
+}
+
+:global .MuiContainer-maxWidthMd {
+  @media screen and (max-width: $screen-md) {
+    max-width: 50rem !important;
+  }
+}
+
+.Container {
+  max-width: 75rem;
+  padding: 0 4rem;
+  margin: 0 auto;
+
+  @media screen and (max-width: $screen-lg) {
+    max-width: 65rem;
+    padding: 0 1.5rem;
+  }
+  @media screen and (max-width: $screen-md) {
+    max-width: 50rem;
+    padding: 0 1.5rem;
+  }
+  @media screen and (max-width: $screen-xs) {
+    padding: 0 1rem;
+
+  }
+}
+
+.PageHero {
+  position: relative;
+  padding: 8rem 0 4rem;
+  background-color: $grey-subtle;
+  text-align: center;
+  @media screen and (max-width: $screen-lg) {
+    padding: 6rem 0 6rem;
+    margin-bottom: -3rem;
+  }
+  @media screen and (max-width: $screen-md) {
+    padding: 6rem 0 8rem;
+    margin-bottom: -5rem;
+  }
+  @media screen and (max-width: $screen-sm) {
+    padding: 8rem 0 8rem;
+    margin-bottom: -5rem;
+  }
+  @media screen and (max-width: $screen-xs) {
+    padding: 7rem 0 18rem;
+    margin-bottom: -15rem;
+  }
+
+  nav {
+    margin-bottom: 3rem;
+    @media screen and (max-width: $screen-sm) {
+      display: none;
+    }
+  }
+  ul {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  li {
+    padding: 0.25rem 0;
+    // font-size: 0.925rem;
+    &:first-child {
+      margin-right: auto;
+      font-weight: bold;
+      border-bottom: 2px solid $octoblue;
+    }
+  }
+  h1 {
+    margin-bottom: 1.5rem;
+  }
+  p {
+    @media screen and (max-width: $screen-xs) {
+      font-size: 0.875rem;
+    }
+    @media screen and (max-width: 25rem) {
+      br {
+        content: "";
+      }
+      br:after {
+        content: " ";
+      }
+    }
+  }
+  svg {
+    position: absolute;
+    top: 99%;
+    left: 0;
+    right: 0;
+  }
+}
+
+.PricingCommunity {
+  max-width: 47rem;
+  margin: 0 auto;
+  :global svg.img {
+    display: block;
+    width: 8rem;
+    margin: 0 auto;
+    @media screen and (max-width: $screen-xs) {
+      width: 10rem;
+    }
+  }
+  p {
+    margin-bottom: 0.5rem;
+  }
+  a {
+    font-weight: bold;
+    display: inline-flex;
   }
 }
