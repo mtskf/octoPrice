@@ -1,10 +1,6 @@
-// import * as React from "react";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Box, Grid } from "@material-ui/core";
-// import { makeStyles, } from "@material-ui/core/styles";
-// import { toLocaleStr, handleInvalidValue } from "../../../utils";
-// import styles from  "./styles.module.scss";
-import UserInput from "./UserInput";
+import PricingConfig from "./PricingConfig";
 import Cloud from "./CloudPricing";
 import Server from "./ServerPricing";
 
@@ -14,12 +10,9 @@ const FREE_MINUTES = 100;
 const PricingModule = () => {
   const [valueTargets, setValueTargets] = useState(FREE_TARGETS);
   const [valueMinutes, setValueMinutes] = useState<number>(FREE_MINUTES);
-  const highAvailability = useMemo(() => valueTargets > 99, [valueTargets]);
   return (
-    <>
-      <h2>TEST</h2>
-      <p>{valueTargets}, {valueMinutes}, {highAvailability ? 'High availability' : ''}</p>
-      <UserInput
+    <Box style={{ position: 'relative' }}>
+      <PricingConfig
         valueTargets={valueTargets}
         setValueTargets={setValueTargets}
         valueMinutes={valueMinutes}
@@ -38,7 +31,7 @@ const PricingModule = () => {
           </Grid>
         </Grid>
       </Box>
-    </>
+    </Box >
   );
 };
 export default PricingModule;

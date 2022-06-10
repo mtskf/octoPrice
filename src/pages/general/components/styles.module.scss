@@ -73,11 +73,12 @@
 }
 
 .OctoFooter {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 10rem;
-  background-color: lighten($grey-light, 6%);
+  background-color: $grey-subtle;
   text-align: center;
   svg {
     display: block;
@@ -88,5 +89,4 @@
   color: lighten($grey, 10%);
   text-transform: uppercase;
   font-size: 0.75rem;
-  // font-weight: bold;
 }

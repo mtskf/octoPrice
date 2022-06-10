@@ -181,12 +181,12 @@
 
 .PricingCard {
   position: relative;
-  // max-width: 25rem;
   height: 100%;
   padding: 2.5rem 1rem 2.75rem;
   box-shadow: 0 0.2rem 2rem rgba($grey-dark, 0.08);
   border-radius: 1rem;
   border: 1px solid $grey-light;
+  background-color: #fff;
   text-align: center;
   transition: all 0.4s ease;
   @media screen and (max-width: $screen-xs) {
@@ -337,5 +337,96 @@
       display: flex;
       font-weight: bold;
     }
+  }
+}
+
+:global .MuiContainer-maxWidthMd {
+  @media screen and (max-width: $screen-md) {
+    max-width: 50rem !important;
+  }
+}
+
+.Container {
+  max-width: 75rem;
+  padding: 0 4rem;
+  margin: 0 auto;
+
+  @media screen and (max-width: $screen-lg) {
+    max-width: 65rem;
+    padding: 0 1.5rem;
+  }
+  @media screen and (max-width: $screen-md) {
+    max-width: 50rem;
+    padding: 0 1.5rem;
+  }
+  @media screen and (max-width: $screen-xs) {
+    padding: 0 1rem;
+
+  }
+}
+
+.PageHero {
+  position: relative;
+  padding: 8rem 0 4rem;
+  background-color: $grey-subtle;
+  text-align: center;
+  @media screen and (max-width: $screen-lg) {
+    padding: 6rem 0 6rem;
+    margin-bottom: -3rem;
+  }
+  @media screen and (max-width: $screen-md) {
+    padding: 6rem 0 8rem;
+    margin-bottom: -5rem;
+  }
+  @media screen and (max-width: $screen-sm) {
+    padding: 6rem 0 8rem;
+    margin-bottom: -5rem;
+  }
+  @media screen and (max-width: $screen-xs) {
+    padding: 6rem 0 18rem;
+    margin-bottom: -15rem;
+  }
+
+  nav {
+    margin-bottom: 3rem;
+    @media screen and (max-width: $screen-sm) {
+      display: none;
+    }
+  }
+  ul {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+  li {
+    padding: 0.25rem 0;
+    // font-size: 0.925rem;
+    &:first-child {
+      margin-right: auto;
+      font-weight: bold;
+      border-bottom: 2px solid $octoblue;
+    }
+  }
+  h1 {
+    margin-bottom: 1.5rem;
+  }
+  p {
+    @media screen and (max-width: $screen-xs) {
+      font-size: 0.875rem;
+    }
+    @media screen and (max-width: 25rem) {
+      br {
+        content: "";
+      }
+      br:after {
+        content: " ";
+      }
+    }
+  }
+  svg {
+    position: absolute;
+    top: 99%;
+    left: 0;
+    right: 0;
   }
 }
