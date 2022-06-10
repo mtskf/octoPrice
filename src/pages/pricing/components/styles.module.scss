@@ -178,14 +178,25 @@
 }
 
 :global .MuiTooltip-tooltip {
-  max-width: 15rem !important;
-  padding: 0.75rem 1rem !important;
+  width: 20rem;
+  max-width: 88vw !important;
+  padding: 1rem 1.25rem !important;
   background-color: $grey-dark !important;
   font-size: 0.875rem !important;
+  pointer-events: all !important;
   & > .MuiTooltip-arrow {
     color: $grey-dark;
     bottom: 1px !important;
     font-size: 12px;
+    border: none !important;
+  }
+  h4 {
+    margin-bottom: 0.5rem;;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  p:not(:last-child) {
+    margin-bottom: 0.5rem;
   }
 }
 
