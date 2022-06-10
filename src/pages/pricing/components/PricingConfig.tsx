@@ -84,7 +84,6 @@ const UserConfig = ({
               title={targetTooltipContent}
               arrow
               placement="top-start"
-              className={styles.CustomToolTip}
             >
               <h3>
                 <span>Deployment targets</span>

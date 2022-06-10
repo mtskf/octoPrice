@@ -86,6 +86,7 @@ const ServerPricing = ({ valueTargets }: PropsType) => {
         </Box>
 
         <Box className={styles.PricingCard__BuyQuote}>
+          {/* eslint-disable-next-line */}
           <a href="#">Buy now</a> or <a href="#">Get quote</a>
         </Box>
 
