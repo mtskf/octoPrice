@@ -5,13 +5,15 @@ import { ChevronRight, Menu } from '@material-ui/icons';
 import styles from "./styles.module.scss";
 import { ReactComponent as Logo } from 'assets/img/logo.svg';
 
+const TOGGLE_THRESHOLD = 40;;
+
 const NavBar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const updateIsScrolled = () => {
     const scrollTop = window.pageYOffset;
-    if (isScrolled && scrollTop < 100) setIsScrolled(false);
-    else if (!isScrolled && scrollTop >= 100) setIsScrolled(true);
+    if (isScrolled && scrollTop < TOGGLE_THRESHOLD) setIsScrolled(false);
+    else if (!isScrolled && scrollTop >= TOGGLE_THRESHOLD) setIsScrolled(true);
   }
 
   const listener = () => {

@@ -23,7 +23,7 @@ interface PropsType {
   setValueMinutes: Dispatch<SetStateAction<number>>;
 }
 
-const UserInput = ({
+const UserConfig = ({
   valueTargets,
   setValueTargets,
   valueMinutes,
@@ -132,4 +132,4 @@ const UserInput = ({
     </>
   );
 };
-export default UserInput;
+export default UserConfig;

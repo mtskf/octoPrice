@@ -4,7 +4,7 @@ import { Shadows } from "@material-ui/core/styles/shadows"
 const theme = createTheme({
   typography: {
     h1: {
-      fontSize: '2.5rem',
+      fontSize: '2.25rem',
       fontWeight: 'bold',
     },
     h2: {
