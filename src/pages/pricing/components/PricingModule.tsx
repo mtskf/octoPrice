@@ -3,6 +3,7 @@ import { Box, Grid } from "@material-ui/core";
 import PricingConfig from "./PricingConfig";
 import Cloud from "./CloudPricing";
 import Server from "./ServerPricing";
+import Community from "./Community";
 
 const FREE_TARGETS = 10;
 const FREE_MINUTES = 100;
@@ -18,7 +19,7 @@ const PricingModule = () => {
         valueMinutes={valueMinutes}
         setValueMinutes={setValueMinutes}
       />
-      <Box mb={10}>
+      <Box mb={5}>
         <Grid container spacing={3} alignItems="stretch">
           <Grid item sm xs={12}>
             <Cloud
@@ -31,6 +32,9 @@ const PricingModule = () => {
           </Grid>
         </Grid>
       </Box>
+
+      <Community />
+
     </Box >
   );
 };

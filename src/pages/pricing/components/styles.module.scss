@@ -440,3 +440,23 @@
     right: 0;
   }
 }
+
+.PricingCommunity {
+  max-width: 47rem;
+  margin: 0 auto;
+  :global svg.img {
+    display: block;
+    width: 8rem;
+    margin: 0 auto;
+    @media screen and (max-width: $screen-xs) {
+      width: 10rem;
+    }
+  }
+  p {
+    margin-bottom: 0.5rem;
+  }
+  a {
+    font-weight: bold;
+    display: inline-flex;
+  }
+}

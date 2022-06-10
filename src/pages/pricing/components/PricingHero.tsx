@@ -3,7 +3,7 @@ import { Box, Typography } from "@material-ui/core";
 import { ReactComponent as WaveBg } from 'assets/img/wave.svg';
 import styles from "./styles.module.scss";
 
-const PricingModule = () => {
+const PricingHero = () => {
   return (
     <>
       <Box className={styles.PageHero} >
@@ -28,4 +28,4 @@ const PricingModule = () => {
     </>
   );
 };
-export default PricingModule;
+export default PricingHero;
