@@ -1,4 +1,4 @@
-import { Container } from "@material-ui/core";
+
 import NavBar from "./pages/general/components/NavBar";
 import Hero from "./pages/pricing/components/PricingHero";
 import PricingBody from "./pages/pricing/components/PricingBody";
@@ -9,9 +9,7 @@ function App () {
     <>
       <NavBar />
       <Hero />
-      <Container maxWidth="md">
-        <PricingBody />
-      </Container>
+      <PricingBody />
       <Footer />
     </>
   );

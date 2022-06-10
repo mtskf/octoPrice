@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Grid } from "@material-ui/core";
+import { Container, Box, Grid } from "@material-ui/core";
 import PricingConfig from "./PricingConfig";
 import Cloud from "./CloudPricing";
 import Server from "./ServerPricing";
@@ -13,32 +13,34 @@ const PricingBody = () => {
   const [valueTargets, setValueTargets] = useState(FREE_TARGETS);
   const [valueMinutes, setValueMinutes] = useState<number>(FREE_MINUTES);
   return (
-    <Box style={{ position: 'relative' }} pb={4}>
-      <PricingConfig
-        valueTargets={valueTargets}
-        setValueTargets={setValueTargets}
-        valueMinutes={valueMinutes}
-        setValueMinutes={setValueMinutes}
-      />
-      <Box mb={5}>
-        <Grid container spacing={2} alignItems="stretch">
-          <Grid item sm xs={12}>
-            <Cloud
-              valueTargets={valueTargets}
-              valueMinutes={valueMinutes}
-            />
+    <Container maxWidth="md">
+      <Box style={{ position: 'relative' }} pb={4}>
+        <PricingConfig
+          valueTargets={valueTargets}
+          setValueTargets={setValueTargets}
+          valueMinutes={valueMinutes}
+          setValueMinutes={setValueMinutes}
+        />
+        <Box mb={5}>
+          <Grid container spacing={2} alignItems="stretch">
+            <Grid item sm xs={12}>
+              <Cloud
+                valueTargets={valueTargets}
+                valueMinutes={valueMinutes}
+              />
+            </Grid>
+            <Grid item sm xs={12}>
+              <Server valueTargets={valueTargets} />
+            </Grid>
           </Grid>
-          <Grid item sm xs={12}>
-            <Server valueTargets={valueTargets} />
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
 
-      <Community />
+        <Community />
 
-      <CallToAction />
+        <CallToAction />
 
-    </Box >
+      </Box >
+    </Container>
   );
 };
 export default PricingBody;
