@@ -11,7 +11,7 @@ import Server from "./ServerPricing";
 const FREE_TARGETS = 10;
 const FREE_MINUTES = 100;
 
-const Pricing = () => {
+const PricingModule = () => {
   const [valueTargets, setValueTargets] = useState(FREE_TARGETS);
   const [valueMinutes, setValueMinutes] = useState<number>(FREE_MINUTES);
   const highAvailability = useMemo(() => valueTargets > 99, [valueTargets]);
@@ -41,4 +41,4 @@ const Pricing = () => {
     </>
   );
 };
-export default Pricing;
+export default PricingModule;

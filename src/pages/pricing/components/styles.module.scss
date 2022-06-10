@@ -181,6 +181,7 @@
 
 .PricingCard {
   position: relative;
+  // max-width: 25rem;
   height: 100%;
   padding: 2.5rem 1rem 2.75rem;
   box-shadow: 0 0.2rem 2rem rgba($grey-dark, 0.08);
@@ -188,6 +189,12 @@
   border: 1px solid $grey-light;
   text-align: center;
   transition: all 0.4s ease;
+  @media screen and (max-width: $screen-xs) {
+    max-width: 25rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   &:hover {
     z-index: 2;
     box-shadow: 0 0.5rem 3rem rgba($grey-dark, 0.16);

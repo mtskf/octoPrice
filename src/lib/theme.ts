@@ -30,7 +30,7 @@ const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 10,
+    borderRadius: 6,
   },
   shadows: Array(25).fill("none") as Shadows,
 });
