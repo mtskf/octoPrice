@@ -71,10 +71,12 @@ const ServerPricing = ({ valueTargets }: PropsType) => {
         <p>Octopus on your infrastructure</p>
 
         <Box className={styles.PricingCard__Price}>
-          <sup>$</sup>
-          {toLocaleStr(totalPrice)}
-          <sup>*</sup>
-          <small>/ month</small>
+          <span>
+            <sup>$</sup>
+            {toLocaleStr(totalPrice)}
+            <sup>*</sup>
+            <small>/ month</small>
+          </span>
         </Box>
 
         <Box className={styles.PricingCard__Detail}>
