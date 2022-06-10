@@ -25,3 +25,4 @@ yarn build
 ## Requirements
 
  * [node v12+](https://nodejs.org/en/download/)
+ (Developed with Node v16.15.0)
