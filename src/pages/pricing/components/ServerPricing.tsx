@@ -32,7 +32,7 @@ const ServerPricing = ({ valueTargets }: PropsType) => {
     available: true,
     info: 'Email-based support from our team in multiple timezones, staffed by engineers who work on the product.'
   }, {
-    title: 'High availability (for 100 + targets only)',
+    title: 'High availability (for 100+ targets only)',
     available: isEligibleHA,
     info: 'Multiple Octopus Server nodes in an active/active, highly available configuration with a load balancer in the front, ensuring you can deploy (or rollback!) 24/7. Only available in plan with more than 100 deployments.'
   }, {
