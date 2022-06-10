@@ -85,6 +85,10 @@ const ServerPricing = ({ valueTargets }: PropsType) => {
           <Button variant="contained" color="secondary" size="large">Start 30 days trial</Button>
         </Box>
 
+        <Box className={styles.PricingCard__BuyQuote}>
+          <a href="#">Buy now</a> or <a href="#">Get quote</a>
+        </Box>
+
         <ul>
           {featureList.map((item, index) => (
             <li key={index} className={item.available ? '' : styles.FeatureNotAvailable}>

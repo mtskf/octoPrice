@@ -21,7 +21,7 @@ const PricingBody = () => {
         setValueMinutes={setValueMinutes}
       />
       <Box mb={5}>
-        <Grid container spacing={3} alignItems="stretch">
+        <Grid container spacing={2} alignItems="stretch">
           <Grid item sm xs={12}>
             <Cloud
               valueTargets={valueTargets}
