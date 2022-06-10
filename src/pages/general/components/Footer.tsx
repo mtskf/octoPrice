@@ -1,6 +1,6 @@
 // import * as React from "react";
 import styles from "./styles.module.scss";
-import { ReactComponent as LogoIcon } from 'assets/img/icon.svg';
+import { ReactComponent as LogoIcon } from 'assets/img/octoIcon.svg';
 
 const Footer = () => {
   return (

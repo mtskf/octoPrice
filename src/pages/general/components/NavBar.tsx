@@ -31,7 +31,7 @@ const NavBar = () => {
     <Box className={styles.OctoNavBar} data-scrolled={isScrolled}>
       <nav className={styles.Container}>
         <ul>
-          <li><Logo className="logo" /></li>
+          <li><Logo className="logo" title="accessible Logo title" /></li>
           <li className="hideMobile">Features</li>
           <li className="hideMobile">Pricing</li>
           <li className="hideMobile">What's New</li>

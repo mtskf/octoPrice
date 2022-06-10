@@ -4,6 +4,7 @@ import PricingConfig from "./PricingConfig";
 import Cloud from "./CloudPricing";
 import Server from "./ServerPricing";
 import Community from "./Community";
+import CallToAction from "./CallToAction";
 
 const FREE_TARGETS = 10;
 const FREE_MINUTES = 100;
@@ -12,7 +13,7 @@ const PricingBody = () => {
   const [valueTargets, setValueTargets] = useState(FREE_TARGETS);
   const [valueMinutes, setValueMinutes] = useState<number>(FREE_MINUTES);
   return (
-    <Box style={{ position: 'relative' }}>
+    <Box style={{ position: 'relative' }} pb={4}>
       <PricingConfig
         valueTargets={valueTargets}
         setValueTargets={setValueTargets}
@@ -34,6 +35,8 @@ const PricingBody = () => {
       </Box>
 
       <Community />
+
+      <CallToAction />
 
     </Box >
   );
