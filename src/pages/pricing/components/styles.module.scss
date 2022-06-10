@@ -1,5 +1,15 @@
 @import 'assets/scss/_variables';
 
+.PricingConfig {
+  margin: 0 auto;
+  @media screen and (max-width: $screen-md) {
+    margin-bottom: -2rem;
+  }
+  @media screen and (max-width: $screen-xs) {
+    max-width: 25rem;
+  }
+}
+
 .CustomSlider {
   padding: 0 1rem;
 
@@ -379,11 +389,11 @@
     margin-bottom: -5rem;
   }
   @media screen and (max-width: $screen-sm) {
-    padding: 6rem 0 8rem;
+    padding: 8rem 0 8rem;
     margin-bottom: -5rem;
   }
   @media screen and (max-width: $screen-xs) {
-    padding: 6rem 0 18rem;
+    padding: 7rem 0 18rem;
     margin-bottom: -15rem;
   }
 

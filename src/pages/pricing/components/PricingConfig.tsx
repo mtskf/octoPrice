@@ -63,7 +63,7 @@ const UserConfig = ({
 
 
   return (
-    <>
+    <Box className={styles.PricingConfig}>
       <Box mb={3}>
         <Grid container alignItems="center">
           <Grid item xs={12} sm="auto" className={styles.SliderTitle}>
@@ -129,7 +129,7 @@ const UserConfig = ({
           </Grid>
         </Grid>
       </Box>
-    </>
+    </Box>
   );
 };
 export default UserConfig;
